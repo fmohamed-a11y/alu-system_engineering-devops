@@ -1,0 +1,266 @@
+DOCCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 · Ceci n'est pas une page</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: "Playfair Display", Georgia, serif;
+  background: linear-gradient(180deg, #5b8fd6 0%, #9cc3f0 45%, #f6d7b0 80%, #e9a17a 100%);
+  background-size: 100% 300%;
+  animation: dusk 20s ease-in-out infinite alternate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+  cursor: default;
+}
+@keyframes dusk {
+  from { background-position: 0 0; }
+  to { background-position: 0 100%; }
+}
+.cloud {
+  position: absolute;
+  width: 120px;
+  height: 40px;
+  background: #fff;
+  border-radius: 40px;
+  opacity: 0.9;
+  filter: blur(1px);
+  animation: drift linear infinite;
+}
+.cloud::before, .cloud::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+.cloud::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+.cloud::after { width: 45px; height: 45px; top: -20px; left: 60px; }
+@keyframes drift {
+  from { transform: translateX(-200px) scale(var(--s)); }
+  to { transform: translateX(calc(100vw + 200px)) scale(var(--s)); }
+}
+.hat {
+  position: absolute;
+  top: -60px;
+  width: 44px;
+  height: 30px;
+  pointer-events: none;
+  animation: fall linear forwards;
+}
+.hat::before {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  width: 28px;
+  height: 22px;
+  background: #1c1c1c;
+  border-radius: 14px 14px 4px 4px;
+  box-shadow: inset 0 -4px 0 #3a2a2a;
+}
+.hat::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 44px;
+  height: 7px;
+  background: #1c1c1c;
+  border-radius: 50%;
+}
+@keyframes fall {
+  to { transform: translateY(calc(100vh + 120px)) rotate(var(--r)); }
+}
+.scene {
+  position: relative;
+  z-index: 5;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+}
+.frame {
+  position: relative;
+  padding: 26px;
+  background: linear-gradient(135deg, #f5d27a, #b8862f 30%, #ffe9a8 50%, #9c6b1f 70%, #e8c162);
+  border-radius: 6px;
+  box-shadow: 0 40px 80px rgba(40, 20, 0, 0.45), inset 0 0 0 4px #7a5418, inset 0 0 0 10px #d9ad52;
+  transform: translateZ(40px);
+}
+.canvas {
+  width: min(78vw, 520px);
+  padding: 50px 30px 40px;
+  background: #f3ead8;
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.7), transparent 60%), repeating-linear-gradient(45deg, rgba(0,0,0,0.015) 0 2px, transparent 2px 6px);
+  text-align: center;
+  box-shadow: inset 0 0 40px rgba(120, 80, 30, 0.35);
+  overflow: hidden;
+}
+.big {
+  font-size: clamp(90px, 22vw, 170px);
+  font-weight: 900;
+  line-height: 0.9;
+  background: linear-gradient(180deg, #4f86d1, #a9cdf5 55%, #ffffff 60%, #a9cdf5 70%, #4f86d1);
+  background-size: 100% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: sky 6s ease-in-out infinite alternate;
+  transform: translateZ(60px);
+}
+@keyframes sky {
+  from { background-position: 0 0; }
+  to { background-position: 0 100%; }
+}
+.caption {
+  font-family: "Caveat", cursive;
+  font-size: clamp(28px, 6vw, 40px);
+  color: #2a2016;
+  margin-top: 10px;
+}
+.apple {
+  position: absolute;
+  top: -40px;
+  right: -30px;
+  width: 70px;
+  height: 64px;
+  background: radial-gradient(circle at 35% 30%, #b6e36a, #4f9a2a 60%, #2f6a18);
+  border-radius: 48% 52% 46% 54%;
+  box-shadow: 0 18px 25px rgba(0,0,0,0.25);
+  transform: translateZ(120px);
+  animation: bob 3.5s ease-in-out infinite;
+  z-index: 10;
+}
+.apple::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 33px;
+  width: 4px;
+  height: 16px;
+  background: #5a3a1a;
+  border-radius: 2px;
+}
+.apple::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 38px;
+  width: 22px;
+  height: 11px;
+  background: #3f8f2a;
+  border-radius: 0 100% 0 100%;
+}
+@keyframes bob {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -14px; }
+}
+.plaque {
+  margin: 34px auto 0;
+  width: max-content;
+  max-width: 90vw;
+  padding: 12px 22px;
+  background: linear-gradient(135deg, #2b2b2b, #111);
+  color: #e9dcc0;
+  font-size: 13px;
+  letter-spacing: 1px;
+  border-radius: 3px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  transform: translateZ(20px);
+  text-align: left;
+}
+.plaque b { display: block; font-size: 15px; letter-spacing: 2px; }
+.plaque i { color: #b9a77f; }
+.btn {
+  display: inline-block;
+  margin-top: 22px;
+  padding: 12px 26px;
+  border: 2px solid #2a2016;
+  color: #2a2016;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #2a2016;
+  transform: translateY(100%);
+  transition: transform 0.3s;
+  z-index: -1;
+}
+.btn:hover { color: #f3ead8; }
+.btn:hover::before { transform: translateY(0); }
+.hint {
+  position: fixed;
+  bottom: 14px;
+  width: 100%;
+  text-align: center;
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(40, 25, 10, 0.6);
+  z-index: 6;
+}
+</style>
+</head>
+<body>
+<div class="scene" id="scene">
+<div class="frame">
+<div class="apple" title="Ceci n'est pas une pomme"></div>
+<div class="canvas">
+<div class="big">404</div>
+<p class="caption">Ceci n'est pas une page.</p>
+<a class="btn" href="/">Return to reality</a>
+</div>
+</div>
+<div class="plaque">
+<b>404, 2026</b>
+Oil on nothing · Fatma Samir<br>
+<i>The page you seek was never painted.</i>
+</div>
+</div>
+<p class="hint">Move your mouse. Click the sky.</p>
+<script>
+var scene = document.getElementById("scene");
+document.addEventListener("mousemove", function (e) {
+  var x = (e.clientX / window.innerWidth - 0.5) * 24;
+  var y = (e.clientY / window.innerHeight - 0.5) * -24;
+  scene.style.transform = "rotateY(" + x + "deg) rotateX(" + y + "deg)";
+});
+for (var i = 0; i < 7; i++) {
+  var c = document.createElement("div");
+  c.className = "cloud";
+  c.style.top = Math.random() * 85 + "vh";
+  c.style.setProperty("--s", (0.6 + Math.random() * 1.2).toFixed(2));
+  c.style.animationDuration = 30 + Math.random() * 40 + "s";
+  c.style.animationDelay = -Math.random() * 60 + "s";
+  document.body.appendChild(c);
+}
+function dropHat(x) {
+  var h = document.createElement("div");
+  h.className = "hat";
+  h.style.left = (x !== undefined ? x : Math.random() * window.innerWidth) + "px";
+  h.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+  h.style.animationDuration = 6 + Math.random() * 6 + "s";
+  document.body.appendChild(h);
+  h.addEventListener("animationend", function () { h.remove(); });
+}
+setInterval(dropHat, 900);
+document.addEventListener("click", function (e) {
+  if (e.target.closest(".btn")) return;
+  for (var j = 0; j < 6; j++) dropHat(e.clientX + (Math.random() * 120 - 60));
+});
+</script>
+</body>
+</html>
+
