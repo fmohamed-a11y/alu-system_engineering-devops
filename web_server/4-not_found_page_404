@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 # Installs nginx with a 301 redirect and a custom 404 page containing Ceci n'est pas une page
-sudo apt-get update -y
-sudo apt-get install -y nginx
-echo "Holberton School for the win!" | sudo tee /var/www/html/index.html > /dev/null
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
-sudo sed -i '/server_name _;/a \\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\terror_page 404 /404.html;' /etc/nginx/sites-available/default
-sudo service nginx restart
+apt-get update -y
+apt-get install -y nginx
+echo "Holberton School for the win!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+sed -i '/redirect_me/d; /error_page 404/d' /etc/nginx/sites-available/default
+sed -i '/server_name _;/a \\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\terror_page 404 /404.html;' /etc/nginx/sites-available/default
+service nginx restart
