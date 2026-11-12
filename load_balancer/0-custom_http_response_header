@@ -4,6 +4,20 @@ sudo apt-get update -y
 sudo apt-get install -y nginx
 echo "Holberton School for the win!" | sudo tee /var/www/html/index.html > /dev/null
 echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
-sudo sed -i '/redirect_me/d; /error_page 404/d; /X-Served-By/d' /etc/nginx/sites-available/default
-sudo sed -i '/server_name _;/a \\tadd_header X-Served-By $hostname;\n\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;\n\terror_page 404 /404.html;' /etc/nginx/sites-available/default
+sudo tee /etc/nginx/sites-available/default > /dev/null <<'EOF'
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+    server_name _;
+    add_header X-Served-By $hostname;
+    rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+    error_page 404 /404.html;
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+EOF
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo service nginx restart
