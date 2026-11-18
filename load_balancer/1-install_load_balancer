@@ -9,9 +9,12 @@ global
     user haproxy
     group haproxy
     daemon
+    h1-case-adjust x-served-by X-Served-By
 
 defaults
-    mode tcp
+    mode http
+    option http-server-close
+    option h1-case-adjust-bogus-client
     timeout connect 5000
     timeout client 50000
     timeout server 50000
@@ -25,4 +28,7 @@ backend http_back
     server 7343-web-01 13.40.29.172:80 check
     server 7343-web-02 16.60.12.170:80 check
 EOF
+if ! sudo haproxy -c -f /etc/haproxy/haproxy.cfg > /dev/null 2>&1; then
+    sudo sed -i '/h1-case-adjust/d' /etc/haproxy/haproxy.cfg
+fi
 sudo service haproxy restart
