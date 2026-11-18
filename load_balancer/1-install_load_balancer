@@ -5,16 +5,13 @@ sudo apt-get install -y haproxy
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
 sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
 global
-    log /dev/log local0
     maxconn 2048
     user haproxy
     group haproxy
     daemon
 
 defaults
-    log global
-    mode http
-    option httplog
+    mode tcp
     timeout connect 5000
     timeout client 50000
     timeout server 50000
