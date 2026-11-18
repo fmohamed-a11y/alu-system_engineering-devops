@@ -3,24 +3,13 @@
 sudo apt-get update -y
 sudo apt-get install -y haproxy
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
-sudo tee /etc/haproxy/haproxy.cfg > /dev/null <<EOF
-global
-    maxconn 2048
-    user haproxy
-    group haproxy
-    daemon
-    h1-case-adjust x-served-by X-Served-By
-
-defaults
-    mode http
-    option http-server-close
-    option h1-case-adjust-bogus-client
-    timeout connect 5000
-    timeout client 50000
-    timeout server 50000
+sudo sed -i '/^global/a \    h1-case-adjust x-served-by X-Served-By' /etc/haproxy/haproxy.cfg
+sudo sed -i '/^defaults/a \    option h1-case-adjust-bogus-client\n    option http-server-close' /etc/haproxy/haproxy.cfg
+sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null <<EOF
 
 frontend http_front
     bind *:80
+    mode http
     default_backend http_back
 
 backend http_back
