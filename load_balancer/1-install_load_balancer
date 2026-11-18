@@ -1,23 +1,48 @@
 #!/usr/bin/env bash
-# Installs and configures HAProxy to roundrobin traffic to web-01 and web-02
-sudo apt-get update -y
-sudo apt-get install -y haproxy
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy > /dev/null
-sudo sed -i '/^global/a \    h1-case-adjust x-served-by X-Served-By' /etc/haproxy/haproxy.cfg
-sudo sed -i '/^defaults/a \    option h1-case-adjust-bogus-client\n    option http-server-close' /etc/haproxy/haproxy.cfg
-sudo tee -a /etc/haproxy/haproxy.cfg > /dev/null <<EOF
+# Setting up my load-balancer to do the round-robin
+
+apt-get update -y
+apt-get install -y haproxy
+
+WEB01_PRIVATE_IP="13.40.29.172"
+WEB02_PRIVATE_IP="16.60.12.170"
+
+echo "Configured backend: web-01 (${WEB01_PRIVATE_IP})"
+echo "Configured backend: web-02 (${WEB02_PRIVATE_IP})"
+
+cat > /etc/haproxy/haproxy.cfg <<EOF
+global
+    log /dev/log local0
+    log /dev/log local1 notice
+    maxconn 2048
+
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
 
 frontend http_front
     bind *:80
-    mode http
-    default_backend http_back
+    default_backend web_servers
 
-backend http_back
+backend web_servers
     balance roundrobin
-    server 7343-web-01 13.40.29.172:80 check
-    server 7343-web-02 16.60.12.170:80 check
+    option httpchk GET /
+    server web-01 ${WEB01_PRIVATE_IP}:80 check
+    server web-02 ${WEB02_PRIVATE_IP}:80 check
 EOF
-if ! sudo haproxy -c -f /etc/haproxy/haproxy.cfg > /dev/null 2>&1; then
-    sudo sed -i '/h1-case-adjust/d' /etc/haproxy/haproxy.cfg
-fi
-sudo service haproxy restart
+
+haproxy -c -f /etc/haproxy/haproxy.cfg
+
+update-rc.d haproxy defaults
+
+service haproxy restart
+
+echo "HAProxy backend configuration:"
+cat /etc/haproxy/haproxy.cfg
+
+service haproxy status
